@@ -1,0 +1,201 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1.0in]{geometry}
+\usepackage{setspace}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[compact]{titlesec}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{tocloft}
+\usepackage{url}
+\usepackage{amsthm,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{xspace}
+\usepackage{tabu}
+\usepackage[table]{xcolor}
+
+% sections
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\Alph{subsection}}
+\titleformat{\section}{\normalsize\bfseries}{\makebox[0.5in][l]{\thesection.}}{0in}{\MakeUppercase}
+\titleformat{\subsection}{\normalsize\bfseries}{\makebox[0.5in][l]{\thesubsection.}}{0in}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\makebox[0.5in][l]{\thesubsubsection.}}{0in}{}
+\titlespacing*{\section}{0em}{0em}{0em}
+\titlespacing*{\subsection}{\parindent}{0em}{0em}
+\titlespacing*{\subsubsection}{\parindent}{0em}{0em}
+
+% paragraphs
+\newcounter{parnum}
+\newcommand{\N}{%
+    \refstepcounter{parnum}%
+    \makebox[\parindent][l]{\arabic{parnum}.}} %
+\setlist[itemize]{leftmargin=0.5in}
+\makeatletter
+\let\orig@afterheading\@afterheading
+\def\@afterheading{%
+   \@afterindenttrue
+  \orig@afterheading}
+\makeatother
+
+\let\secsym\S
+\renewcommand{\S}{\secsym\xspace}
+
+% figures
+ \renewcommand{\topfraction}{.85}
+\renewcommand{\bottomfraction}{.7}
+\renewcommand{\textfraction}{.15}
+\renewcommand{\floatpagefraction}{.66}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{4}
+
+% headers
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{14pt}
+\fancyhead[C]{\small\textbf{EXPERT REPORT}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% contents
+\setlength{\cftsecnumwidth}{0.5in}
+\setlength{\cftsubsecnumwidth}{0.5in}
+\setlength{\cftsubsecindent}{0.5in}
+\renewcommand\cftsecfont{\mdseries}
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cfttoctitlefont}{\hfill\normalsize\bfseries}
+\renewcommand{\cftsecpagefont}{\mdseries}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+
+% bibliography
+$if(biblatex)$
+%\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
+\usepackage[$if(biblio-style)$$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$backend=biber]{biblatex-chicago}
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+$endif$
+$if(nocite-ids)$
+\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
+$endif$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% GENERIC PANDOC STUFF
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+$if(title-meta)$
+  pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+  pdfauthor={$author-meta$},
+$endif$
+$if(lang)$
+  pdflang={$lang$},
+$endif$
+$if(subject)$
+  pdfsubject={$subject$},
+$endif$
+$if(keywords)$
+  pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
+$if(colorlinks)$
+  colorlinks=true,
+  linkcolor={$if(linkcolor)$$linkcolor$$else$Maroon$endif$},
+  filecolor={$if(filecolor)$$filecolor$$else$Maroon$endif$},
+  citecolor={$if(citecolor)$$citecolor$$else$Blue$endif$},
+  urlcolor={$if(urlcolor)$$urlcolor$$else$Blue$endif$},
+$else$
+  hidelinks,
+$endif$
+  pdfcreator={LaTeX via pandoc}}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+$if(highlighting-macros)$
+$highlighting-macros$
+$endif$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\thispagestyle{empty}
+% CAPTION
+\begin{center}
+    \textbf{\MakeUppercase{$caption.jurisdiction$}}
+\end{center}
+
+\setlength{\tabcolsep}{0em}
+\setlength{\parindent}{0em}
+\begin{tabular}{p{0.5\textwidth}|p{1em}p{0.4\textwidth}}
+\vspace{1em}
+    $for(caption.petitioner)$
+    $caption.petitioner$$sep$,\\
+    $endfor$ \\\\
+    \textit{$caption.petitioner_name$}, & & \\
+    \vspace{1em}
+    v. & & $caption.case_no$ \\
+    \vspace{1em}
+    $for(caption.respondent)$
+    $caption.respondent$$sep$,\\
+    $endfor$ \\\\
+    \textit{$caption.respondent_name$}. & &
+\vspace{1em}
+\end{tabular}
+\setlength{\parindent}{0.5in}
+
+\vspace{2em}
+
+% TITLE
+\onehalfspacing
+\hrule
+\begin{center}\bfseries
+    \MakeUppercase{$title$}
+
+    $author$
+
+    $date$
+\end{center}
+\hrule
+
+\clearpage
+\doublespacing
+
+% TOC
+$if(toc)$
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+\clearpage
+$endif$
+
+% DOCUMENT
+$body$
+
+% bibliography
+$if(biblatex)$
+%\newpage
+\printbibliography[heading=none]
+$endif$
+
+% EXHIBITS
+\newcounter{exhibit}
+\renewcommand{\theexhibit}{\Alph{exhibit}}
+$for(exhibits/pairs)$
+\newpage
+\thispagestyle{empty}
+\vspace*{3in}
+\begin{center}
+    \refstepcounter{exhibit}
+    \label{exh:$it.key$}
+    \noindent\Huge\bfseries
+    EXHIBIT \theexhibit \\
+    $it.value$
+\end{center}
+$endfor$
+
+\end{document}

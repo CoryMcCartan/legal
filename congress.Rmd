@@ -1,0 +1,511 @@
+---
+title: Expert Report
+author: Kosuke Imai, Ph.D.
+date: December 9, 2021
+caption:
+    petitioner:
+        - League of Women Voters of Ohio, *et al.*
+    petitioner_name: Relators
+    respondent:
+        - Ohio Redistricting Commission, *et al.* 
+    respondent_name: Respondents
+    jurisdiction: In the Supreme Court of Ohio
+    case_no: |
+        Original Action Filed Pursuant to Ohio Const., Art. XIX, Sec. 3(A)
+exhibits:
+    vitae: Curriculum Vitae
+bibliography: references.bib
+biblio-style: authordate
+output:
+    bookdown::pdf_document2:
+        toc: true
+        toc_depth: 2
+        template: template.tex
+        keep_tex: true
+        citation_package: biblatex
+---
+
+```{r echo=FALSE, include=FALSE}
+library(knitr)
+library(magrittr)
+library(here)
+knitr::opts_chunk$set(echo=FALSE)
+
+n_house <- "5,000"
+n_senate <- "5,000"
+
+sims = readRDS(here("data/cd_sim_sum.rds"))
+```
+
+# Introduction and Scope of Work
+
+\N My name is Kosuke Imai, Ph.D., and I am a Professor in the Department of Government and the Department of Statistics at Harvard University.
+I specialize in the development of statistical methods for and their applications to social science research.
+I am also affiliated with Harvard's Institute for Quantitative Social Science.
+
+\N I have been asked by counsel representing the relators in this case to analyze relevant data and provide my expert opinions related to whether Ohio's enacted congressional districting plan (SB 258, which I will refer to as the "enacted plan" in this report) meets the criteria in Article XIX, Section 1(C)(3)(a) of Ohio's Constitution.
+More specifically, I have been asked to statistically analyze the enacted plan's compliance with Article XIX, Section 1(C)(3)(a)'s requirement that "[t]he general assembly shall not pass a plan that unduly favors or disfavors a political party or its incumbents" by comparing it against other alternative plans that are as or more compliant with other relevant requirements of Article XIX.
+
+# Summary of Opinions
+
+\N I simulated 5,000 hypothetical plans that are at least as compliant with Article XIX as the enacted plan.
+The comparison of these simulated plans with the enacted plan yields the following findings:
+
+-   The enacted plan unduly favors the Republican Party by giving the Republicans a much greater expected number of seats than in any of my 5,000 simulated plans.
+    Even using the General Assembly's assumptions regarding the appropriate election set and calculation of expected number of seats, the Republican candidates are expected to win `r sims$e_rep_fed_diff` more seats under the enacted plan than under the average simulated plan.
+
+-   The expected number of Republican seats under the enacted plan is a clear statistical outlier.
+    Indeed, any plan that provides for more than 9 expected Republican seats is an outlier.\
+    Moreover, the probability of generating the enacted plan's extreme partisan outcome under the non-partisan simulation procedure I used is essentially zero.
+
+-   The enacted plan exhibits a significant partisan bias in favor of the Republican Party.
+    Even using the General Assembly's assumptions regarding the appropriate election set and calculation of expected number of seats, the magnitude of bias is much greater under the enacted plan than in any of my 5,000 simulated plans and is a clear statistical outlier, according to several standard metrics used in the academic literature.
+
+-   In Hamilton County, the enacted plan cracks Democratic voters to create safe Republican seats, while in Franklin and Cuyahoga counties the enacted plan packs Democratic voters to create additional Republican-leaning districts.
+
+# Qualifications, Experience, and Compensation
+
+\N I am trained as a political scientist (Ph.D. in 2003, Harvard) and a statistician (MA in 2002, Harvard).
+I have published more than 60 articles in peer reviewed journals, including premier political science journals (e.g., *American Journal of Political Science*, *American Political Science Review*, *Political Science*), statistics journals (e.g., *Biometrika*, *Journal of the American Statistical Association*, *Journal of the Royal Statistical Society*), and general science journals (e.g., *Lancet*, *Nature Human Behavior*, *Science Advances*).
+My work has been widely cited across a diverse set of disciplines.
+For each of the past four years, Clarivate Analytics, which tracks citation counts in academic journals, has named me as a highly cited researcher in the cross-field category for producing "multiple highly cited papers that rank in the top 1% by citations for field and year in Web of Science."
+
+\N I started my academic career at Princeton University, where I played a leading role in building interdisciplinary data science communities and programs on campus.
+I was the founding director of Princeton's Program in Statistics and Machine Learning from 2013 to 2017.
+In 2018, I moved to Harvard, where I am Professor jointly appointed in the Department of Government and the Department of Statistics, the first such appointment in the history of the university.
+Outside of universities, between 2017 and 2019, I served as the president of the Society for Political Methodology, a primary academic organization of more than one thousand researchers worldwide who conduct methodological research in political science.
+My introductory statistics textbook for social scientists, *Quantitative Social Science: An Introduction* (Princeton University Press, 2017), has been widely adopted at major research universities in the United States and beyond.
+
+\N Computational social science is one of my major research areas.
+As part of this research agenda, I have developed simulation algorithms for evaluating legislative redistricting since the beginning of this emerging literature.
+At Harvard, I lead the Algorithm-Assisted Redistricting Methodology (ALARM; \url{https://alarm-redist.github.io/}) Project, which studies how algorithms can be used to improve legislative redistricting practice and evaluation.
+
+\N Back in 2014, along with Jonathan Mattingly's team at Duke, my collaborators and I were the first to use Monte Carlo algorithms to generate an ensemble of redistricting plans.
+Since then, my team has written several methodological articles on redistricting simulation algorithms (\cite{fifield2020mcmc,fifield2020enum,smc,kenn:etal:21}).
+
+\N I have also developed an open-source software package titled `redist` that allows researchers and policy makers to implement the cutting-edge simulation methods developed by us and others (\cite{redist}).
+This software package can be installed for free on any personal computer with Windows, Mac, or Linux operating system.
+According to a website that tracks the download statistics of R packages, our software package has been downloaded about 30,000 times since 2016 with an increasing download rate.\footnote{\url{https://ipub.com/dev-corner/apps/r-package-downloads/} (accessed on December 6, 2021)}
+
+\N In addition to redistricting simulation methods, I have also developed the methodology for ecological inference referenced in voting rights cases (\cite{imai:lu:stra:08,imai:khan:16}).
+For example, my methodology for predicting individual's race using voter files and census data was extensively used in a recent decision by the Second Circuit Court of Appeals regarding a redistricting case (Docket No. 20-1668; Clerveaux *et al* v. East Ramapo Central School District).
+
+\N A copy of my curriculum vitae is attached as Exhibit \ref{exh:vitae}.
+
+\N I am being compensated at a rate of \$450 per hour.
+My compensation does not depend in any way on the outcome of the case or on the opinions and testimony that I provide.
+
+# Methodology {#sec:methods}
+
+\N I conducted simulation analyses to evaluate the enacted plan's compliance with Section 1(C)(3)(a) of Article XIX. Redistricting simulation algorithms generate a representative sample of all possible plans under a specified set of criteria.
+This allows one to evaluate the properties of a proposed plan by comparing them against those of the simulated plans.
+If the proposed plan unusually favors one party over another *when compared to* the ensemble of simulated plans, this serves as empirical evidence that the proposed plan is a partisan gerrymander.
+Furthermore, statistical theory allows us to quantify the degree to which the proposed plan is extreme relative to the ensemble of simulated plans in terms of partisan outcomes.
+
+\N A primary advantage of the simulation-based approach, over the traditional methods, is its ability to account for the political and geographic features that are specific to each state, including spatial distribution of voters and configuration of administrative boundaries.
+Simulation methods can also incorporate each state's redistricting rules.
+These state-specific features limit the types of redistricting plans that can be drawn, making comparison across states difficult.
+The simulation-based approach therefore allows us to compare the enacted plan to a representative set of alternate districting plans subject to Ohio's administrative boundaries, political realities, and constitutional requirements.
+Appendix \ref{subsec:introsim} provides a brief introduction to redistricting simulation.
+
+## Simulation Analysis
+
+\N I have ensured that all my simulated plans are equally or more compliant with Section 2(B) of Article XIX than the enacted plan.
+My simulation procedure achieves this, in part, by being compliant with the U.S.
+Constitution and federal law protecting racial minority voting rights, generating contiguous and compact districts, limiting the number of county splits, and respecting the other splitting criteria specified in Section 2(B).
+I also avoid splitting the counties the enacted plan does not split.
+Appendix \ref{subsec:implementation} provides detailed information about this process.
+For all simulations, I ensure districts fall within a 0.5% deviation from population parity.
+Although this deviation is greater than the population deviation used in the enacted plan, it only accounts for less than 4,000 people and hence has no impact on the conclusions of my analysis.
+
+\N Here, I provide a brief overview of the procedure while leaving the details to Appendix \ref{subsec:implementation}.
+My simulation proceeds in two steps.
+First, at the instruction of counsel for the relators, I ensured that every simulated plan has one district in Cuyahoga County with the proportion of black voting age population (BVAP) falling above 42% in order to be compliant with the U.S.
+Constitution and federal law protecting racial minority voting rights.
+To do this, I sampled a contiguous and compact district that has an appropriate population size and BVAP proportion within Cuyahoga County.
+This district always contains the entire city of Cleveland because Section 2(B)(4)(b) prohibits splitting it.
+Once such a district is generated, I then separately run the simulation algorithm on the rest of the state and generate the remaining 14 districts while making sure that the resulting districts satisfy the requirements specified in Section 2(B).
+I repeat this procedure 5,000 times to obtain the desired number of simulated plans.
+
+## Metrics Used to Measure Bias {#subsec:metrics}
+
+\N Using the redistricting simulation methodology, I evaluate compliance with Section 1(C)(3)(a) of Article XIX in the set of simulated plans generated by the algorithm as well as the enacted plan.
+To determine whether the enacted plan unduly favors a particular political party, I compare the expected number of Republican and Democratic seats under the enacted plan against the corresponding number under the simulated plans.
+
+\N I understand that the General Assembly assessed the partisan leanings of the enacted plan using the set of six statewide federal elections from 2012 to 2020 (see Appendix \ref{subsec:data} for the list of these elections).
+I do not endorse the assumption that using this limited data set can accurately predict the expected number of Republican and Democratic seats under the enacted plan.\footnote{I have reviewed the Affidavit of Dr. Christopher Warshaw dated November 30, 2021, which concludes that this set of elections artificially enhances the perception of Democratic Party strength under the enacted plan.
+I agree with his conclusion in this regard.}
+I nonetheless use this same set of election results data in my analysis so that the differences in conclusions between my analysis and the General Assembly's assessment cannot be attributed to the way in which the partisan leanings of districts are evaluated.
+Given that these elections enhance the perception of Democratic relative strength, using this assumption effectively gives the enacted plan the benefit of the doubt.
+
+\N I also adopt the General Assembly's approach to computing the expected number of Republican seats under a given redistricting plan.
+Specifically, I first compute the total number of Republican votes for each district and then sum it across the six statewide federal elections.
+Dividing this by the total number of two-party votes that are similarly aggregated across these elections yields the Republican two-party vote share for each district.
+This aggregation method may not be ideal because it gives greater weights to general elections, which tend to have higher turnout than midterm elections.
+In spite of this potential problem, I follow the General Assembly's approach so that the findings of my analysis can be directly compared to the General Assembly's assessment.
+I have confirmed that the resulting vote share for each district under the enacted plan is essentially identical to the corresponding district-level vote share presented in the November 16, 2021 statement from Senator Rob McColley.
+Finally, based on these vote shares, I determine likely winners of all districts based on the vote totals for each statewide election.
+This gives the total number of expected Republican and Democratic seats for a given plan under the General Assembly's approach.
+
+\N In addition to the expected number of seats, I apply a variety of metrics that are commonly used in the academic literature.
+These metrics are extensively discussed in Dr. Christopher Warshaw's affidavit, dated November 30, 2021, and the references therein.
+I have reviewed Dr. Warshaw's articulation of these metrics and they are consistent with my understanding, and appear to be applicable to the facts of this case.
+Specifically, to measure compliance with Section 1(C)(3)(a), I use the following partisan bias metrics whose definitions are discussed in Dr. Warshaw's affidavit and the references therein.
+
+-   Efficiency gap
+-   Mean-median gap
+-   Symmetry in the vote-seat curve across parties
+-   Declination
+
+## The Determination of Whether the Enacted Plan is a Statistical Outlier Can Provide a Useful Measure of its Partisan Bias {#subsec:outlier}
+
+\N Another important benefit of using the redistricting simulation methodology is that it can determine whether or not the enacted plan is a statistical outlier relative to the simulated plans generated under a specified set of criteria.
+If the enacted plan is a statistical outlier, then the observed difference in partisan outcome between the enacted plan and the simulated plans represents a systematic partisan bias.
+
+\N To determine whether the enacted plan is a statistical outlier, I first estimate the probability of generating a simulated plan that favors a political party at least as much as the enacted plan does.
+This can be done by simply computing the proportion of the simulated plans that favors a political party equally or more than the enacted plan.
+If this estimated probability is very small (e.g., less than 0.001), then the enacted plan is a statistical outlier because it is highly unlikely to come from the non-partisan distribution that is used to generate the simulated plans.
+If the data based on the simulated plans follow the normal distribution, which is a bell-shaped symmetric distribution without skew, then this probability of 0.001, for example, implies that the enacted plan is more than three standard deviations away from the average simulated plans.\footnote{Note that a standard deviation represents the average distance between a data point and the mean.}
+
+\N I also compute the difference in partisan outcome between the enacted plan and the average simulated plan.
+This allows me to measure the magnitude of partisan bias while accounting for its random variability across the simulated plans.
+I apply the most commonly used definition of an outlier (\cite{tukeyEDA}).
+According to this definition, an outlier represents a data point that is beyond a distance of 1.5 interquartile range (IQR) below the first quartile or above the third quartile.
+If the data based on the simulated plans were normally distributed, the enacted plan is regarded as an outlier if it is at least 2.70 standard deviations away from the average simulated plan.
+
+## Description of Redistricting Simulation Software
+
+\N In my analysis, I use the open-source software package for redistricting analysis `redist` (\cite{redist}), which implements a variety of redistricting simulation algorithms as well as other evaluation methods.
+My collaborators and I have written the code for this software package, so that other researchers and the general public can implement these state-of-the-art methods on their own.
+I supplement this package with code written primarily to account for the redistricting rules and criteria that are specific to Ohio.
+All of my analyses are conducted on a laptop.
+Indeed, all of my analysis code can be run on any personal computer once the required software packages, which are also freely available and open-source, are installed.
+
+
+# Evaluation of the Enacted Plan Using the General Assembly's Approach {#sec:statewide}
+
+\N Using the redistricting simulation methodology, I evaluate the enacted plan's compliance with Section 1(C)(3)(a).
+Appendix \ref{subsec:data} provides the detailed information about data sources.
+I simulated 5,000 alternative Congressional redistricting plans, using the simulation procedure described in Section \ref{sec:methods}.
+As explained in Appendix \ref{subsec:implementation}, every simulated plan is at least as compliant with Sections 2(B) as the enacted plan.
+For example, Appendices \ref{app:compact} and \ref{app:countysplits} show that the simulated plans are more compact and have fewer county splits than the enacted plan.
+
+\N I can easily generate additional compliant plans by running the algorithm longer, but for the purpose of my analysis, 5,000 simulated plans will yield statistically precise conclusions.
+In other words, generating more than 5,000 plans, while possible, will not materially affect the conclusions of my analysis.
+
+```{r cd-sim-seats, fig.cap="Expected number of Republican seats calculated for the 5,000 simulated plans computed by averaging across the six statewide federal elections from 2012 to 2020. Overlaid is the value for the enacted plan (red).", fig.width=6.5}
+include_graphics(here("figs/cd_sim_seats_fed.pdf"))
+```
+
+\N To evaluate the enacted plan's compliance with Section 1(C)(3)(a), I first compare the expected number of Republican seats under the enacted plan with that under each of my 5,000 simulated plans.
+Figure \ref{fig:cd-sim-seats} shows that under the enacted plan, the Republican Party is expected to win 11 seats.\footnote{This prediction of 11 expected seats is based on using the set of six statewide federal elections from 2012 to 2020 that the General Assembly used.  Again, I do not endorse the assumption that using this limited data set can accurately predict the expected number of Republican seats.} In contrast, under about 80% of the simulated plans, the expected number of Republican seats is only 8, while the Republican Party is expected to win 9 seats under the remaining 20% of the simulated plans.
+In other words, the enacted plan is expected to yield an additional `r sims$e_rep_fed_diff` Republican seats when compared to the average simulated plan.
+Indeed, none of my 5,000 simulated plans gives as many Republican seats as the enacted plan.
+This result implies that the probability of generating the enacted plan's extreme partisan outcome under the non-partisan simulation procedure I used is essentially zero.
+Thus, any redistricting plan that gives more than 9 seats to the Republican Party, including the enacted plan, is a clear statistical outlier.
+
+\N Under most of the simulated plans, the Republican Party is expected to win 8 seats, which is equivalent to 53% of the Ohio's 15 Congressional seats.
+This seat proportion is almost identical to the statewide vote share of the Republican Party, which is approximately 52% calculated using the General Assembly's approach and 54% based on the statement made by the Ohio Redistricting Commission in compliance with Section 8(C)(2) of Article XI of the Ohio Constitution.
+In contrast, under the enacted plan, the expected seat share of the Republican Party is 73%, which is roughly 20 percentage points greater than its expected vote share.
+As discussed above, this seat share result is a clear statistical outlier.
+Accordingly, this shows that the enacted plan unduly favors the Republican Party.
+
+```{r cd-sim-part-boxpl, fig.cap="Expected Republican vote share for districts using the six statewide federal elections from 2012 to 2020. For any given plan, the districts are ordered based on their expected Republican vote share. Boxplots represent the distribution of the expected Republican vote share across the simulated plans, whereas the red square correponds to the expected Republican vote share under the enacted plan.", fig.width=6.5}
+include_graphics(here("figs/cd_sim_part_boxpl_fed.pdf"))
+```
+
+\N Figure \ref{fig:cd-sim-part-boxpl} further demonstrates the partisan bias of the enacted plan.
+In this plot, for any given plan (both enacted and simulated), I ordered the districts based on the magnitude of their expected Republican vote share.
+This means that under any given plan, district R1 yields the highest expected vote share while district R15 is expected to give the least support to the Republican candidate (to be clear, the R1 through R15 district identifiers do not correspond to the Congressional district numbers in the enacted plan).
+If the expected Republican vote share of each ordered district under the enacted plan (red square) diverges from the corresponding distribution of the simulated plans (boxplot), it constitutes evidence of possible partisan bias.
+Note that in a boxplot, the "box" contains 50% of the data points (those from 25 percentile to 75 percentile to be exact) with the horizontal line indicating the median value whereas the vertical lines coming out of the box, called "whiskers", indicate the range, which contains most data.
+Any data points that are beyond these whiskers are considered as outliers according to the second part of the definition discussed in Section \ref{sec:methods}.\ref{subsec:outlier} (paragraph 23).
+
+\N The figure shows clear evidence of the enacted plan's partisan bias.
+This partisan bias, for the reasons discussed below, further shows that the enacted plan unduly favors the Republican Party.
+For all of my 5,000 simulated plans, districts R10 and R11 (the 10th and 11th most Republican-leaning districts, respectively) lean toward the Democratic party with the expected median Republican vote share equal to 49.0% and 47.3%, respectively.
+Indeed, for district R11, none of 5,000 simulated plans are expected to yield as many Republican votes as the enacted plan.
+Yet under the enacted plan, both of these districts have the expected Republican vote shares above 50%.
+According to the definition discussed in Section \ref{sec:methods}.\ref{subsec:outlier}, these two points associated with the enacted plan are clear statistical outliers, with district R10 and R11 `r sims$distr_dist[6]` and `r sims$distr_dist[5]` standard deviations away from the median, respectively.
+
+\N I also find that under the enacted plan, districts R12 and R13 lean much less strongly towards the Democratic party than under all of the simulated plans.
+Lastly, the enacted plan packs Democratic voters in districts R14 and R15, which are two most Democratic-leaning districts.
+This is indicated by the fact that these districts have much lower levels of expected Republican vote shares under the enacted plan than under the simulated plans.
+In contrast, the enacted plan avoids packing Republican voters in the five most Republican districts (districts R1 to R5).
+Indeed, these districts have much lower levels of expected Republican vote shares under the enacted plan than under the simulated plans.
+Aside from districts R2 and R5, these points are also statistical outliers.
+Districts R1 to R5 are `r paste(sims$distr_dist[15:12], collapse=", ")` and `r sims$distr_dist[11]` standard deviations away from the median, respectively.
+
+```{r cd-sim-partisan, fig.cap="Four partisan bias measures calculated for the 5,000 simulated Congressional redistricting plans computed by averaging across the six federal elections from 2012 to 2020. Overlaid is the value for the enacted plan (red).  For each measure, larger values (towards the right) correspond to more Republican-favoring plans.", fig.width=6.5}
+include_graphics(here("figs/cd_sim_partisan_fed.pdf"))
+```
+
+\N I next use the four partisan bias metrics discussed in Section \ref{sec:methods}.\ref{subsec:metrics} to examine the enacted plan's compliance with Section 1(C)(3)(a).
+I adjusted the sign of each metric so that positive values indicate Republican bias, and values nearer to zero indicate less partisan bias.
+To summarize the results, as shown in Figure \ref{fig:cd-sim-partisan}, when compared to these simulated plans (black histogram), the enacted plan (red vertical line) is a clear outlier favoring the Republican Party.
+Indeed, the enacted map is more biased than any of 5,000 simulated plans for all four partisan bias metrics I considered.
+
+\N The efficiency gap, which captures both cracking and packing, is `r sims$egap_enac` for the enacted map, whereas the average efficiency gap for the simulated plans is only `r sims$egap_sim`.
+This implies that the enacted plan wastes around `r sims$egap_votes` more Democratic votes on average than the simulated plans, and around `r sims$egap_votes` fewer Republican votes.
+As shown in the top-left plot of Figure \ref{fig:cd-sim-partisan}, the enacted map is `r sims$egap_dist` standard deviations away from the average simulated plan, and is thus a clear statistical outlier in terms of the efficiency gap metric.
+
+\N The mean-median gap is a measure of asymmetry in the distribution of votes across districts.
+The existence of packed districts may lead to a large mean-median gap.
+The top-right plot of the figure shows that the mean-median gap is `r sims$meanmed_enac` under the enacted plan while the simulated plans score `r sims$meanmed_sim` on average.
+Indeed, the enacted plan is `r sims$meanmed_dist` standard deviations away from the average simulated plan, and is thus a clear statistical outlier in terms of the mean-median gap metric.
+
+\N Partisan symmetry is based on the idea that each party should receive half of the seats if they each receive 50% of votes.
+The bottom-left plot of Figure \ref{fig:cd-sim-partisan} shows that the enacted plan scores `r sims$pbias_enac` on this metric while the simulated plans score `r sims$pbias_sim`, on average.
+This suggests that under the enacted plan, the Republican Party would gain roughly `r sims$pbias_enac_seats` more seats than the Democrats, for a hypothetical tied election.
+In contrast, the simulated plans would give only `r sims$pbias_sim_seats` more seats to the Republican Party than the Democrats in the same situation.
+The enacted plan is `r sims$pbias_dist` standard deviations away from the average simulated plan, and is thus a clear statistical outlier in terms of the partisan symmetry metric.
+
+\N Lastly, the declination metric represents another measure of asymmetry in the vote distribution.
+As shown in the bottom-right plot of the figure, the enacted plan also scores worse on this metric than any of the 5,000 simulated plans.
+Specifically, the enacted plan scores `r sims$decl_enac` whereas the simulated plans earn `r sims$decl_sim` on average.
+The enacted plan is `r sims$decl_dist` standard deviations away from the average simulated plan, and is thus a clear statistical outlier in terms of the declination metric.
+
+\N Thus, all of the partisan bias metrics show that the enacted plan is a clear statistical outlier, favoring the Republican Party, when compared to the simulated plans.
+Indeed, the enacted plan has a worse partisan bias than any of my 5,000 simulated plans.
+
+# Local Analysis of Selected Counties
+
+\N Partisan bias in the enacted plan is apparent not just in statewide summary statistics, as shown above, but also at the local level.
+To illustrate this, I performed a detailed analysis of the Congressional districts in Hamilton, Franklin, and Cuyahoga counties.
+My analysis of these cities shows that the enacted plan packs a disproportionately large number of Democratic voters into some districts while cracking Democratic voters in other districts to create Republican-leaning seats.
+
+\N My analysis of each county proceeds as follows.
+For each precinct, I first compute the expected two-party vote share of the district to which the precinct is assigned under the enacted plan.
+I then perform the same calculation under each simulated plan and average these expected vote shares across all of the simulated plans.
+Comparison of these two numbers reveals whether the enacted plan assigns a precinct to a district whose political leaning is different from what would be expected under the simulated plans.
+As in Section \ref{sec:statewide}, the results shown below are based on the General Assembly's approach that uses the statewide federal elections from 2012-2020.
+
+## Hamilton County
+
+\N I begin by illustrating the above calculation through an example.
+Precinct 061031BEZ of Cincinnati lies within District 1 of the enacted map, which has an expected Republican two-party vote share of 51.53%.
+However, the same precinct belongs to different districts in most of the simulated maps, each with their own Republican vote share.
+The average Republican vote share for the districts to which this precinct is assigned across all of the simulated plans is 44.85%, which is 6.68 percentage points lower than under the enacted plan.
+So, based on the representative set of simulated plans that have less partisan bias, precinct 061031BEZ is assigned to a more Republican-leaning district under the enacted plan than under the average simulation plan.
+
+```{r cd-sim-local-map-cin, fig.cap="Congressional districts in Hamilton County. The left map presents the expected two-party vote shares of districts under the enacted plan, while the right map shows, for each precinct, the average expected two-party vote share of districts to which the precinct is assigned across the simulated plans. The enacted district boundaries are shown with thick black lines. While under the simulated plans, Cincinnati and its environs are expected to belong to a Democratic-leaning district, the enacted plan cracks Democratic voters, leading to solely Republican districts.", fig.width=6.5}
+include_graphics(here("figs/cd_sim_local_map_cin.pdf"))
+```
+
+\N The left map of Figure \ref{fig:cd-sim-local-map-cin} presents the expected vote shares of districts under the enacted plan, while the right map shows, for each precinct, the average expected two-party vote share of districts to which the precinct is assigned across the simulated plans.
+Under the enacted plan, Democratic areas are cracked to yield three Republican-leaning districts, despite a significant concentration of Democratic voters in and around Cincinnati.
+This is especially apparent with the two unusual protrusions of Districts 2 and 8 into Hamilton County, which split the county twice.
+The simulated plans, in comparison, are expected to only split Hamilton County once.
+As the right figure indicates, the area covered by these protrusions would normally be expected to belong to a Democratic district, but as a result of being lumped with adjacent districts in the enacted plan, instead belongs to safely Republican districts.
+
+\N As a result of these manipulations and additional splits of Hamilton County, the enacted plan has no Democratic seats under the average statewide federal contest, whereas the simulated plans are expected to yield a Democratic seat.
+So in Hamilton County alone, cracking of Democratic voters nets Republicans an entire seat.
+
+## Franklin County
+
+```{r cd-sim-local-map-col, fig.cap="Congressional districts in Franklin County. The left map presents the expected two-party vote shares of districts under the enacted plan, while the right map shows, for each precinct, the average expected two-party vote share of districts to which the precinct is assigned across the simulated plans. The enacted district boundaries are shown with thick black lines. While under the simulated plans, all of Franklin County are expected to belong to a Democratic district, the enacted plan packs Democratic voters, leaving much of the city of Columbus in a Republican district stretching most of the way to Cincinnati.", fig.width=6.5}
+include_graphics(here("figs/cd_sim_local_map_col.pdf"))
+```
+
+\N Analogous to Figure \ref{fig:cd-sim-local-map-cin}, Figure \ref{fig:cd-sim-local-map-col} compares the enacted plan with the simulated plans in Franklin County. 
+Unlike in Hamilton County, the enacted plan packs Democratic voters into a single, heavily Democratic, District 3, leaving Districts 4, 12, and 15 to be safely Republican.
+Much of the area inside Franklin County belongs to a safe Republican district under the enacted plan.
+In contrast, under the simulated plans, the entire area of Franklin County is expected to belong to a Democratic-leaning district, as is Delaware County and part of Fairfield County.
+
+\N By confining Democratic voters to a single district containing part of Columbus, the enacted plan deprives Democratic voters in the rest of the county of a reasonable opportunity to elect a Democratic candidate.
+In doing so, the enacted plan yields around one additional seat for Republicans, on average, when compared to the simulated plans.
+
+## Cuyahoga County
+
+```{r cd-sim-local-map-cle, fig.cap="Congressional districts in Cuyahoga County. The left map presents the expected two-party vote shares of districts under the enacted plan, while the right map shows, for each precinct, the average expected two-party vote share of districts to which the precinct is assigned across the simulated plans. The enacted district boundaries are shown with thick black lines. While under the simulated plans, the suburbs of Cleveland are expected to belong to either Democratic districts or highly competitive districts, the enacted plan packs urban Democratic voters, leaving the remainder of Cuyahoga County and nearby areas in Republican districts.", fig.width=6.5}
+include_graphics(here("figs/cd_sim_local_map_cle.pdf"))
+```
+
+\N Figure \ref{fig:cd-sim-local-map-cle} is constructed just like Figures \ref{fig:cd-sim-local-map-cin} and \ref{fig:cd-sim-local-map-col}.
+Districts in Cuyahoga County are more constrained than in Franklin County, based on the need to avoid splitting the city of Cleveland, as well as Voting Rights Act considerations.
+Even so, the enacted plan differs in key ways from the average simulated plan.
+First, it overly packs Democratic voters in District 11, as indicated by Figure \ref{fig:cd-sim-part-boxpl} where District 11 corresponds to the least Republican-leaning district (R15).
+More importantly, Districts 5, 7, 13, and 14 in the enacted plan are drawn to crack the remaining Democratic voters outside of Cleveland and in the cities of Lorain and Akron.
+The result of this is to create three Republican-leaning districts and only one competitive district.
+In contrast, under the simulated plans, all of the areas south and west of Cleveland are generally expected to belong to competitive or Democratic-leaning districts.
+
+\newpage
+# Appendix
+
+\setcounter{parnum}{0}
+
+## Introduction to Redistricting Simulation {#subsec:introsim}
+
+\N In recent years, redistricting simulation algorithms have played an increasingly important role in court cases involving redistricting plans.
+Simulation evidence has been presented to courts in many states, including Michigan, North Carolina, Ohio, and Pennsylvania.\footnote{Declaration of Dr. Jonathan C. Mattingly, Common Cause v. Lewis (2019); Testimony of Dr. Jowei Chen, Common Cause v. Lewis (2019); Testimony of Dr. Pegden, Common Cause v. Lewis (2019); Expert Report of Jonathan Mattingly on the North Carolina State Legislature, Rucho v. Common Cause (2019); Expert Report of Jowei Chen, Rucho v. Common Cause (2019); Amicus Brief of Mathematicians, Law Professors, and Students in Support of Appellees and Affirmance, Rucho v. Common Cause (2019); Brief of Amici Curaiae Professors Wesley Pegden, Jonathan Rodden, and Samuel S.-H. Wang in Support of Appellees, Rucho v. Common Cause (2019); Intervenor’s Memo, Ohio A. Philip Randolph Inst. et al. v. Larry Householder (2019); Expert Report of Jowei Chen, League of Women Voters of Michigan v. Benson (2019).}
+
+\N Over the past several years, researchers have made major scientific advances to improve the theoretical properties and empirical performance of redistricting simulation algorithms.
+All of the state-of-the-art redistricting simulation algorithms belong to the family of Monte Carlo methods.
+They are based on random generation of spanning trees, which are mathematical objects in graph theory (\cite{deford2019}).
+The use of these random spanning trees allows these state-of-the-art algorithms to efficiently sample a representative set of plans (\cite{autry2020,carter2019,smc,kenn:etal:21}).
+Algorithms developed earlier, which do not use random spanning trees and instead rely on incremental changes to district boundaries, are often not able to do so.
+
+\N These algorithms are designed to sample plans from a specific probability distribution, which means that every legal redistricting plan has certain odds of being generated.
+The algorithms put as few restrictions as possible on these odds, except to ensure that, on average, the generated plans meet certain criteria.
+For example, the probabilities are set so that the generated plans reach a certain level of geographic compactness, on average.
+Other criteria, based on the state in question, may be fed into the algorithm by the researcher.
+In other words, this target distribution is based on the weakest assumption about the data under the specified constraints.
+
+\N In addition, the algorithms ensure that all of the sampled plans (a) are geographically contiguous, and (b) have a population which deviates by no more than a specified amount from a target population.
+
+\N There are two types of general Monte Carlo algorithms which generate redistricting plans with these guarantees and other properties: sequential Monte Carlo (SMC; \cite{doucet2001}) and Markov chain Monte Carlo (MCMC; \cite{gilk:rich:spie:96}) algorithms.
+
+\N The SMC algorithm (\cite{smc,kenn:etal:21}) samples many redistricting plans in parallel, starting from a blank map.
+First, the algorithm draws a random spanning tree and removes an edge from it, creating a "split" in the map, which forms a new district.
+This process is repeated until the algorithm generates enough plans with just one district drawn.
+The algorithm calculates a weight for each plan in a specific way so that the algorithm yields a representative sample from the target probability distribution.
+Next, the algorithm selects one of the drawn plans at random.
+Plans with greater weights are more likely to be selected.
+The algorithm then draws another district using the same splitting procedure and calculates a new weight for each updated plan that comports with the target probability distribution.
+The whole process of random selection and drawing is repeated again and again, each time drawing one additional district on each plan.
+Once all districts are drawn, the algorithm yields a sample of maps representative of the target probability distribution.
+
+\N The MCMC algorithms (\cite{autry2020,carter2019}) also form districts by drawing a random spanning tree and splitting it.
+Unlike the SMC algorithm, however, these algorithms do not draw redistricting plans from scratch.
+Instead, the MCMC algorithms start with an existing plan and modify it, merging a random pair of districts and then splitting them a new way.
+
+\N Diagnostic measures exist for both these algorithms which allow users to make sure the algorithms are functioning correctly and accurately.
+The original papers for these algorithms referenced above provide more detail on the algorithm specifics, empirical validation of their performance, and the appropriateness of the chosen target distribution.
+
+## Implementation Details {#subsec:implementation}
+
+\N In my analysis, I use the SMC algorithm for several reasons.
+First, unlike the MCMC algorithms, the SMC algorithm generates nearly independent samples, leading to a diverse set of redistricting plans that satisfy the specified constraints.
+Second, the SMC algorithm avoids splitting political subdivision boundaries where possible, an important consideration in the case of Ohio.
+Third, Sections 2(B)(2) and 2(B)(3) require districts to be compact and contiguous, respectively.
+The SMC algorithm automatically satisfy both of these requirements.
+Appendix \ref{app:compact} shows that most of simulated plans generate more compact districts than the enacted plan according to the Polsby-Popper measure, which is a common metric of compactness used in the academic literature.
+
+\N My simulation proceeds in two steps.
+First, I sample a district in Cuyahoga County using a Voting Rights Act (VRA) constraint to be compliant with Section 2(B)(1).
+At the instruction of counsel for the relators, I sample one district within Cuyahoga County such that its BVAP proportion falls above 42%.
+This is done by using the constraint of the form $\sqrt{\max\left(x_b - B(x_b), 0\right)}$, where $x_b$ is the share of a district's VAP that is Black, and $B(x_b)$ returns the target BVAP percentages closest to $x_b$ from the set $\{0.02, 0.08, 0.42\}$.
+This is a common way to formulate the VRA constraint (\cite{herschlag2020quantifying}).
+Note that I also instructed the algorithm to never split the City of Cleveland, in accordance with Section 2(B)(4)(b), and not to split Cuyahoga County three times or more, in accordance with Sections 2(B)(4)(a) and 2(B)(5).
+
+\N Once a district is sampled within Cuyahoga, I generate the remaining 14 districts within the rest of the state without the VRA constraint.
+In this second step, I incorporate several split constraints.
+According to Section 2(B)(4)(b), municipalities with population between 100,000 people and the Congressional ratio of represetation, that reside in a county with population greater than the Congressional ratio of representation, should not be split.
+In addition to the City of Cleveland, this provision also applies to the City of Cincinnati.
+I instruct the SMC algorithm to never split either of these municipalities.
+
+\N Section 2(B)(5) requires that of Ohio's 88 counties, at least 65 counties should not be split; no more than 18 counties can be split no more than once; no more than 5 counties can be split no more than twice.
+I made sure that all of my simulated plans satisfy this requirement by not splitting the counties the enacted plan does not split and imposing a constraint that discourages the algorithm from splitting a county.
+This is accomplished in two pieces.
+First, the SMC algorithm, by design, can be instructed to attempt to follow county boundaries where possible by drawing spanning trees within counties and then between them; I use this feature.
+Additionally, I penalize a district which splits a county twice with a score of 3, and I penalize a district which splits a county three or more times with a score of 100.
+A penalty of 100 is so severe that any such district is effectively discarded.
+These parameter values are chosen such that the diversity of the simulated plans is reasonable while minimizing the number of county splits.
+
+\N As shown in Appendix \ref{app:countysplits}, all of my simulation plans have fewer county splits than the enacted plan.
+In addition, while the enacted plan splits Hamilton and Cuyahoga counties twice, only 8 of my 5,000 simulated plans split two counties twice.
+35.9% of the simulated plans split only Franklin County twice whereas the remaining simulated plans split no counties twice.
+
+\N Section 2(B)(4)(a) applies to single municipality or township that exceeds the Congressional ratio of representation.
+The only municipality or township that satisfies this criteria is the City of Columbus.
+The provision states that the map drawers "shall attempt to include a significant portion of that municipal corporation or township in a single district and may include in that district other municipal corporations or townships that are located in that county and whose residents have similar interests as the residents of the municipal corporation or township that contains a population that exceeds the congressional ratio of representation." To satisfy this requirement, I impose a penalty of 0.5 for each additional district that encompasses any part of the city.
+This has the effect of ensuring that the city is not split into many different districts.
+Again, this parameter value is chosen such that the diversity of the simulated plans is reasonable while appropriately discouraging Columbus splits.
+Like the enacted plan, all of my simulated plans split Columbus into two districts but in different ways.
+
+\N According to Section 2(B)(6), for counties that are split by a congressional district, the part of the district that falls within county lines must be geographically contiguous within the county.
+This requirement is mathematically guaranteed by the properties of the SMC algorithm; by drawing spanning trees hierarchically, within and then across counties, it is impossible to split off a district which has two discontiguous pieces inside one county.
+
+\N Section 2(B)(7) requires that two congressional districts can share at most the territory of a single county, excepting counties with population greater than 400,000, where another county can be shared.
+Like Section 2(B)(6), this requirement is guaranteed by the SMC algorithm: each new district will split at most one county, whereas a 2(B)(7) violation would require two districts to each split the same two counties.
+
+\N Section 2(B)(8) states, "The authority drawing the districts shall attempt to include at least one whole county in each congressional district." This provision does not apply when a district is contained entirely within a county or when in conflict with federal law.
+This requirement is guaranteed by the enacted plans' choice of counties to split: with the exception of Cuyahoga and Franklin counties, which are each large enough to have a district contained entirely within them, every other split county is surrounded by counties which are not split.
+Since I do not permit the algorithm to split these surrounding counties, every other district is either contained within a single county or includes the entirety of one of these surrounding counties.
+
+## Compactness of the Simulated Plans {#app:compact}
+
+```{r cd-sim-comp, fig.cap="Polsby--Popper and edge--removal compactness scores for the simulated redistricting plans. Overlaid are scores for the enacted plan (red).  For both measures, larger values indicate more compact districts."}
+include_graphics(here("figs/cd_sim_comp.pdf"))
+```
+
+\N I now show that the simulated plans are more compliant with Section 2(B)(2), which requires districts to be compact, than the enacted plan.
+I use the Polsby--Popper (\cite{polsby1991}) and edge-removal (\cite{deford2019,smc}) scores, two commonly-used quantitative measures of district compactness.
+For the edge-removal compactness, I present the fraction of edge kept so that like the Polsby--Popper score, a greater value implies a higher level of compactness.
+Figure \ref{fig:cd-sim-comp} shows that a vast majority of the simulated plans are more compact than the enacted plan according to the Polsby--Popper score.
+If I instead use the edge-removal compactness score, all of the simulated plans have superior compactness when compared to the enacted plan.
+The result clearly implies that it is possible to be compliant with Section 1(C)(3)(a) without sacrificing the compliance with Section 2(B)(2).
+
+## County Splits of the Simulated Plans {#app:countysplits}
+
+```{r cd-sim-splits, fig.cap="The number of county splits for the simulated redistricting plans. Overlaid are the scores for the enacted plan (red).  The left plot shows the number of counties that are split once under each plan, whereas the middle plot presents the number of counties that are split twice under each plan.  The right plot shows the number of counties that are split either once or twice.  No county is split more than twice under both the enacted plan and any of the simulated plans."}
+include_graphics(here("figs/cd_sim_splits.pdf"))
+```
+
+\N Similar to compactness, it is possible to be compliant with Section 1(C)(3)(a) without splitting counties more than the enacted plan.
+The left plot of Figure \ref{fig:cd-sim-splits} shows that the number of counties split once is much less under any of the simulated plans than under the enacted plan.
+The same finding applies to the number of counties that are split twice.
+As a result, the total number of counties split under the enacted plan is much greater than that under any of the simulated plans.
+
+## References and Materials Considered {#sec:references}
+
+### Data Sources {#subsec:data}
+
+<!-- ELECTIONS: "att_18" "adt_18" "gvr_14" "gvr_18" "prs_12" "prs_16" "prs_20" "scr_14" "scr_18" "trs_18" "uss_12" "uss_16" "uss_18" [SEE README] -->
+
+#### Data Aquisition
+
+-   I analyze a total of 13 statewide elections: US President (2012, 2016, 2020), US Senate (2012, 2016, 2018), Secretary of State (2014, 2018), Governor (2014, 2018), Attorney General (2018), Treasurer (2018), Auditor (2018)
+
+-   The six statewide federal elections I use to implement the General Assembly's approach: US President (2012, 2016, 2020), US Senate (2012, 2016, 2018)
+
+-   The 2016, 2018, and 2020 precinct-level shapefiles were acquired from the Voting and Election Science Team at the University of Florida and Wichita State University.
+    This data is publicly available on the Harvard Dataverse, an online repository of social science data.
+    Those shapefiles were joined to precinct-level election returns from the Ohio Secretary of State's office, which had been processed and cleaned by OpenElections.
+
+-   The 2012 and 2014 election returns pro-rated to the 2010 VTD level were acquired from Bill Cooper.
+    Counsel has informed that Bill Cooper provided the following description of the data: The 2012 results are disaggregated to the block level (based on block centroids) from the statewide 2012 precinct file.
+    The 2014 results are based on a geocoding of about 3.15 million voters who cast ballots in Nov. 2014.
+    These addresses were matched to census blocks and the blocks were aggregated to the precinct level.
+    These virtual precincts were next matched to the 2014 election results and then disaggregated back to the block level, with block-level matches.
+    When aggregated to the congressional level, the differences are measured in the tenths of a percent for House contests.
+    As a final step, these datasets were aggregated from the block-level to the 2010 VTD level.
+    Finally, it is important to note that there is a 2% to 3% undercount statewide for all votes cast in the 2014 election.
+
+-   Given the missing votes for the 2014 contests in Lorain County, the VTD-level totals in that county were approximated using the official precinct 2014 returns.
+    First, after identifying the township, city, or village of each 2014 precinct, the official precinct-level returns were aggregated up to that level.
+    Those municipality-level returns were then disaggregated for each candidate down to the VTDs in each municipality, proportionally to the vote counts for the candidate running for the same office and party in the 2018 midterm cycle.
+
+-   The 2020 Census Block shapefiles, total population by race and ethnicity, and voting age population by race and ethnicity were obtained directly from the Census FTP portal.
+
+-   The 2020 Census place block assignment files (for city and village boundaries and VTD block assignment files) were obtained from the Census website.
+
+-   The 2020 Census county subdivision shapefiles (for Ohio township boundaries) were obtained from the Census website.
+
+-   The enacted plan data were gathered from the text of SB258, and cleaned into a block equivalency file.
+
+-   Geolocated congressional incumbent names and addresses, which were gathered by Carl Klarner, were acquired through Redistricting Data Hub.
+For new incumbents who came into office following the 2021 general election (Shontel Brown, Mike Carey), their addresses and geolocated locations were given to me by counsel for the plaintiffs.
+
+#### Data Processing
+
+-   The datasets that were on the 2020 census block level (total population, voting age population, Census place assignment, VTD assignment, enacted plan) were joined to the 2020 Census block shapefile.
+
+-   The datasets that were not on the level of the census block (2016, 2018, and 2020 election returns -- precinct; 2012 and 2014 election returns -- 2010 VTD) were disaggregated down to the 2020 census block level.
+    Then, the resulting data were joined to the 2020 Census block shapefile.
+
+-   For the 2020 Census county subdivision shapefile, each 2020 Census block was assigned to its corresponding county subdivision assignment by overlaying the county subdivision shapefile onto the 2020 Census blocks.
+
+-   Given that some of Ohio's voting districts are geographically discontiguous, the separate discontiguous pieces of each voting district were identified.
+
+#### Data Aggregation
+
+-   The full block-level dataset was aggregated up to the level of the 2020 voting districts, taking into account (a) discontiguous voting districts and (b) splits of voting districts by the enacted plan.
+
+-   The final municipality ID was constructed on the aggregated dataset.
+    Where a VTD belonged to a village or a city, the municipality ID took the value of that village or city.
+    Otherwise, it took the value of the county subdivision of the VTD.
+    Then, discontiguous municipalities or townships were identified, and assigned to unique identifiers.
+    The final municipality ID concatenates the original municipality ID, the identifier for each discontiguous piece, and a county identifier, so that it identifies a unique contiguous piece of a municipality within a given county.
+
+### References

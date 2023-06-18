@@ -1,0 +1,291 @@
+%% Original inline citation format:
+%% Copyright (C) 1994, 1995 René Seindal (rene@seindal.dk)
+%% Modifications for the bluebook:
+%% Copyright (C) 2002-2004 Peter Eckersley <peter.eckersley@gmail.com>
+
+% This files may be distributed under the terms of the LaTeX Project Public
+% License as distributed from CTAN archives in macros/latex/base/lppl.txt;
+% either version 1.0 or, at your option, any later version.
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bluebook}[1994/12/06\space Inline bibliography style]
+\ProcessOptions
+
+% handy functions
+%\newcommand{\url}[1]{{\footnotesize{#1}}}
+\newcommand{\etal}{{\em et al.}}
+\newcommand{\See}{{\em See}\xspace}
+\newcommand{\see}{{\em see}\xspace}
+\newcommand{\seeeg}{{\em see, e.g.,}\xspace}
+\newcommand{\Seeeg}{{\em See, e.g.,}\xspace}
+\newcommand{\Seealso}{{\em See also}\xspace}
+\newcommand{\seealso}{{\em see also}\xspace}
+\newcommand{\Butsee}{{\em But see}\xspace}
+\newcommand{\butsee}{{\em but see}\xspace}
+\newcommand{\Cf}{{\em Cf$.$}\xspace}
+\newcommand{\cf}{{\em cf$.$}\xspace}
+\newcommand{\Butcf}{{\em But cf$.$}\xspace}
+\newcommand{\infra}{{\em infra}\xspace}
+\newcommand{\supra}{{\em supra}\xspace}
+
+\newcommand{\Section}{\S}
+\newcommand{\Sections}{\S\S}
+\newcommand{\para}{\textparagraph}
+\newcommand{\paras}{\para\para}
+
+% BLUEBOOK CITATION ABBREVIATIONS
+% (expand as necessary)
+
+\def\abbrvspace{\xspace}
+
+% This way LaTeX doesn't think this is the end of a sentence
+\def\fullstop{$.$}
+
+\newcommand{\biband}{\& }
+\newcommand{\bibcomma}{}
+\newcommand{\bibin}{}
+\newcommand{\bibof}{}
+\newcommand{\bibThe}{}
+\newcommand{\bibthe}{}
+\newcommand{\bibgap}{~}
+\newcommand{\American}{Am\fullstop\abbrvspace}
+\newcommand{\Boston}{B\fullstop\abbrvspace}
+\newcommand{\Chicago}{Chi\fullstop\abbrvspace}
+\newcommand{\Columbia}{Colum\fullstop\abbrvspace}
+\newcommand{\Commerce}{Com\fullstop\abbrvspace}
+\newcommand{\Communications}{Comm\fullstop\abbrvspace}
+\newcommand{\Connecticut}{Conn\fullstop\abbrvspace}
+\newcommand{\Contemporary}{Contemp\fullstop\abbrvspace}
+\newcommand{\Denver}{Denv.\fullstop\abbrvspace}
+\newcommand{\Economic}{Eco\fullstop\abbrvspace}
+\newcommand{\Economics}{Eco\fullstop\abbrvspace}
+\newcommand{\Economy}{Eco\fullstop\abbrvspace}
+\newcommand{\Entertainment}{Ent\fullstop\abbrvspace}
+\newcommand{\Environmental}{Env\fullstop\abbrvspace}
+\newcommand{\European}{Eur\fullstop\abbrvspace}
+\newcommand{\Government}{Gov't\abbrvspace}
+\newcommand{\Harvard}{Harv\fullstop\abbrvspace}
+\newcommand{\History}{Hist\fullstop\abbrvspace}
+\newcommand{\Law}{L\fullstop\abbrvspace}
+\newcommand{\LawJournal}{L.J\fullstop\abbrvspace}
+\newcommand{\Industrial}{Indus\fullstop\abbrvspace}
+\newcommand{\Information}{Info\fullstop\abbrvspace}
+\newcommand{\Intellectual}{Intell\fullstop\abbrvspace}
+\newcommand{\International}{Int\fullstop\abbrvspace}
+\newcommand{\Journal}{J\fullstop\abbrvspace}
+\newcommand{\JournalOfLaw}{J.L\fullstop\abbrvspace}
+\newcommand{\National}{Nat'l\abbrvspace}
+\newcommand{\NewYork}{N.Y\fullstop\abbrvspace}
+\newcommand{\North}{N\fullstop\abbrvspace}
+\newcommand{\Northwestern}{Nw\fullstop\abbrvspace}
+\newcommand{\Magazine}{Mag\fullstop\abbrvspace}
+\newcommand{\Michigan}{Mich\fullstop\abbrvspace}
+\newcommand{\Oregon}{Or\fullstop\abbrvspace}
+\newcommand{\Patent}{Pat\fullstop\abbrvspace}
+\newcommand{\Philosophy}{Phil\fullstop\abbrvspace}
+\newcommand{\Policy}{Pol'y\abbrvspace}
+\newcommand{\Political}{Pol\fullstop\abbrvspace}
+\newcommand{\Politics}{Pol\fullstop\abbrvspace}
+\newcommand{\Problems}{Probs\fullstop\abbrvspace}
+\newcommand{\Property}{Prop\fullstop\abbrvspace}
+\newcommand{\Proceedings}{Proc\fullstop\abbrvspace}
+\newcommand{\Public}{Pub\fullstop\abbrvspace}
+\newcommand{\Quarterly}{Q\fullstop}
+\newcommand{\Report}{Rep\fullstop\abbrvspace}
+\newcommand{\Research}{Res\fullstop\abbrvspace}
+\newcommand{\Review}{Rev\fullstop\abbrvspace}
+\newcommand{\Society}{Soc'y\abbrvspace}
+\newcommand{\Social}{Soc\fullstop\abbrvspace}
+\newcommand{\Studies}{Stud\fullstop\abbrvspace}
+\newcommand{\Stanford}{Stan\fullstop\abbrvspace}
+\newcommand{\System}{Sys\fullstop\abbrvspace}
+\newcommand{\Technology}{Tech\fullstop\abbrvspace}
+\newcommand{\Telecommunications}{Telecomm\fullstop\abbrvspace}
+\newcommand{\Transnational}{Transnat'l }
+\newcommand{\University}{U\fullstop\abbrvspace}
+\newcommand{\Vanderbilt}{Vand\fullstop\abbrvspace}
+\newcommand{\Virginia}{Va\fullstop\abbrvspace}
+
+  %% Fixed texts
+\def\@bib@ibid{{\em id.}}
+\def\@bib@cit{cit.}
+
+
+  %% No labels in the final list of litterature.
+
+\let\@biblabel\@gobble
+
+% hacked in.  Need to be fixed:
+
+\newcommand{\citeNP}[1]{\cite{#1}}
+\newcommand{\citeyearNP}[1]{\cite{#1}}
+\newcommand{\citeyear}[1]{\cite{#1}}
+
+%\def\citeyear#1#2{\cite{#1\if@tempswa , #2\fi}}
+
+  %% This is called for each bibitem without option in the bbl file.
+  %% The inlinebib style does not use bibitems with optional
+  %% arguments.  The arguments are: #1 = key, #2 = basic entry, #3 =
+  %% notes for last reference list only, #4 = short entry for successive
+  %% citations.  The period that ends an entry in the list is never
+  %% present in the inline reference.   Punctuations should be added
+  %% manually. 
+
+\long\def\@bibitem#1 #2 \note #3 \short #4 \end{\par\if@filesw
+	{\def\protect##1{\string ##1\space}%
+	 \let\newblock\@empty
+	 \immediate\write\@auxout{\string
+		\bibcite{#1}{\string\@bibcall{#1}{#2}{#4}}}}\fi
+	{\let\cite\shortcite #2#3}}
+%	{\let\cite\shortcite #2}}
+
+
+
+  %% This is called from the aux file at the start of the job.
+
+\long\def\bibcite#1#2{\global\@namedef{b@#1}{#2}}
+
+
+
+
+  %% Set globally true iff an immediate following period should be
+  %% gobbled, because the citation ends in a period, e.g., from a
+  %% trailing "cit." or "ibid." and there is no optional part.
+
+\newif\if@gobbleperiod
+\newif\if@withpages
+
+
+  %% Separate the first and the following citations of a reference, and
+  %% handle successive identical citations of the same reference.  Each
+  %% macro b@LABEL is defined as \@bibcall{LABEL}{FULLCITE}{SHORTCITE}.
+  %% The actual definition of b@LABELis not changed after the first
+  %% citation, since it provokes messages of "Labels may have changed"
+  %% from LaTeX.
+
+
+\let\deref=\@nameuse
+\let\makeref=\@namedef
+%\def\isundef#1#2{\TE@throw\noexpand\ifx\noexpand\@undefined\noexpand#1#2}
+
+%\newcommand{\deref}[1]{\@ifdefined{#1}blah blah blah\else\@nameuse{#1}\fi}
+
+\def\@lastcite{}
+\def\noibid{\gdef\@lastcite{}}
+
+\long\def\@bibcall#1#2#3{\global\@gobbleperiodfalse
+	\@ifundefined{B@#1}%
+		{{#2}\global\@namedef{B@#1}{}\label{#1}%\expandafter\def\csname pincite@#1\endcsname{xyz #1}}% black magic
+    \global\makeref{P@#1}{xyz #1}}%
+		{\@bibsecond{#1}{#3}}%
+	\gdef\@lastcite{#1}%
+}
+
+\long\def\@bibsecond#1#2{%
+	\def\@tempa{#1}%
+	\ifx\@tempa\@lastcite \@bib@ibid\else#2 \supra note~\ref{#1}\fi
+	%\if@withpages \else \global\@gobbleperiodtrue \fi
+  % turn off fullstop gobbling.  It may occasionally remain necessary
+  % for Id. citations, but it needs to be done in the .bst I think.
+	\if@withpages \else \global\@gobbleperiodfalse \fi
+}
+
+  %% Called for each normal \cite call.  This version does not allow
+  %% multiple citations in one call, as it makes little sense.  The
+  %% labels are much too long.
+
+%\def\pincite{}
+
+\def\cite{\protect\@pcite}
+\def\@pcite{\@ifnextchar [{\@withpagestrue\@citex}{\@withpagesfalse\@citex[]}}
+
+\def\@citex[#1]#2{%\edef\pincite{#2 {#1} x}
+  \def\pin{#2}%
+  %\def\pincitesubst #1pincitegoeshere#2{#1\pin#2}
+  \if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+	\@ifundefined{b@#2}%
+		{{\reset@font\bf ?}\@warning%
+			{Citation `#2' on page \thepage \space undefined}}%
+		\@cite{\@nameuse{b@#2}}{#1}% <----
+	\let\next\relax
+	\if@gobbleperiod \let\next\check@period \fi
+	\next
+}
+
+
+  %% Produces the actual inline citation, no bracketes around it.
+
+\def\@cite#1#2{#1\if@withpages , #2\fi}
+
+
+  %% Remove a following period.
+
+\def\check@period{\futurelet\next\check@peri@d}
+\def\check@peri@d{\ifx\next .\let\next\eat@period
+	\else \let\next\relax \fi \next}
+\def\eat@period.{}
+
+
+
+
+
+  %% Forced full citation
+
+\def\fullycite{\protect\@pfcite}
+\def\@pfcite{\@ifnextchar [{\@withpagestrue\@fcitex}{\@withpagesfalse\@fcitex[]}}
+ 
+\def\@fcitex[#1]#2{\expandafter\let\csname B@#2\endcsname\undefined
+  \@citex[#1]{#2}}
+
+  %% Forced short citation, with no "cit." suffix or "ibid."
+  %% substitutions.
+
+\def\shortcite{\protect\@pscite}
+\def\@pscite{\@ifnextchar [{\@withpagestrue\@scitex}{\@withpagesfalse\@scitex[]}}
+ 
+\def\@scitex[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+  \@ifundefined{b@#2}{{\reset@font\bf ?}\@warning
+       {Citation `#2' on page \thepage \space undefined}}%
+  {\long\def\@bibcall##1##2##3{##3}%
+   \@cite{\@nameuse{b@#2}}{#1}}}
+
+
+
+  %% Force full citations of the specified list of references.
+
+\def\fullcitenext#1{{\@tfor
+	\@tempa :=#1\do{\expandafter\global\expandafter
+		\let\csname B@\@tempa\endcsname\undefined}}}
+
+  %% Force short citations of the specified list of references.
+
+\def\shortcitenext#1{{\@for
+	\@tempa :=#1\do{\expandafter\global\expandafter
+		\let\csname B@\@tempa\endcsname\@empty}}}
+
+
+
+
+  %% This is to allow for an introduction to the bibliography
+
+\let\bibc@mment\@empty
+\long\def\bibliographycomment#1{%
+	\def\bibc@mment{\let\bibc@mment\@empty #1\par\bigskip}%
+}
+
+
+
+  %% Copied from report.sty, changed to avoid unwanted left margin and
+  %% add bibliography comment.
+
+\def\thebibliography#1{\section*{\refname\@mkboth
+  {\uppercase{\refname}}{\uppercase{\refname}}}\bibc@mment
+  \small
+  \def\newblock{\hskip .11em plus.33em minus.07em}%
+  \sloppy\clubpenalty4000\widowpenalty4000
+  \sfcode`\.=\@m
+  \parindent\z@\relax
+  \parskip\medskipamount
+}
+
+\def\endthebibliography{\par\medskip}

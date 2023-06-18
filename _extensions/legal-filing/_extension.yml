@@ -1,0 +1,46 @@
+title: Legal Filing Template
+author: Cory McCartan
+version: 0.1.0
+contributes:
+  formats:
+    common:
+      date-format: long
+      toc: true
+      toc-title: Table of Contents
+      break-to-start: true
+      title-rule: false
+      header: true
+      geometry:
+        - margin=1in
+      indent: true
+      fontsize: 12pt
+      filters:
+        # - number-pars.lua
+      # csl: bluebook-inline.csl
+      execute:
+        echo: false
+        warning: false
+    pdf:
+      fontfamily: mathptmx
+      linestretch: 2
+      colorlinks: false
+      fig-width: 6.5
+      fig-height: 4.5
+      fig-format: pdf
+      number-sections: true
+      number-depth: 4
+      block-headings: false
+      biblio-style: apalike
+      cite-method: natbib
+      pdf-engine: pdflatex
+      template-partials:
+        - "partials/pandoc.tex"
+        - "partials/title.tex"
+        - "partials/before-body.tex"
+        - "partials/toc.tex"
+        - "partials/after-body.tex"
+      format-resources:
+        # Add here the resources required for the PDF rendering
+        # - bluebook-inline.csl
+        # - bluebook.sty
+        # - bluebook.bst

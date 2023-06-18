@@ -1,0 +1,64 @@
+---
+title: Expert Report
+author: Elaine Expert, Ph.D.
+date: last-modified
+caption:
+  prepend: ""
+  petitioner:
+    - Peter Petitioner
+  petitioner_name: Plaintiff
+  party-sep: "v."
+  respondent:
+    - Robert Respondent
+    - Randy Respondent, Official Role
+  respondent_name: Defendants
+  jurisdiction: |
+    UNITED STATES DISTRICT COURT
+    
+    WESTERN DISTRICT OF WASHINGTON
+  case_no: |
+    Case No. 123456789
+exhibits:
+  vitae: Curriculum Vitae
+exhibit-format: Alph
+bibliography: references.bib
+format:
+  legal-filing-pdf:
+    toc: true
+    break-to-start: false
+    title-rule: false
+    header: false
+    keep-tex: true
+---
+
+# Introduction and Scope of Work {#sec-intro}
+
+\N Paragraph one. Use `\N` at the start of paragraphs that should be numbered.
+
+\N Paragraph two.
+
+# Qualifications  {#sec-qual}
+
+\N A copy of my curriculum vitae is attached as Exhibit \ref{exh:vitae}.
+
+# Summary of Opinions {#sec-summary}
+
+\N Paragraph three. You can reference sections, e.g. @sec-methods, and also Appendices \ref{sec-app-one} and \ref{sec-app-two}, though the latter should be referenced using the `\ref{}` notation from \LaTeX.
+
+# Methodology  {#sec-methods}
+
+# Further Headings
+
+Citations are easy as well, though do not conform to Bluebook style: @metropolis1953 and @marbury.
+
+{{< pagebreak >}}
+
+# Appendix
+
+\setcounter{parnum}{0} <!-- Restart paragraph numbering -->
+
+## First Appendix {#sec-app-one}
+
+## Second Appendix {#sec-app-two}
+
+

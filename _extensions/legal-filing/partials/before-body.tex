@@ -1,0 +1,79 @@
+$if(has-frontmatter)$
+\frontmatter
+$endif$
+$if(title)$
+\thispagestyle{empty}
+$if(caption)$
+% CAPTION
+\begin{center}\bfseries
+    $caption.jurisdiction$
+\end{center}
+
+\vspace{1em}
+
+\setlength{\tabcolsep}{0em}
+\setlength{\parindent}{0em}
+\begin{tabular}{p{0.45\textwidth} p{0.05\textwidth} | p{0.05\textwidth} p{0.45\textwidth}}
+    \vspace{0.5em}
+    $if(caption.prepend)$
+    $caption.prepend$ &&& \\ &&& \\
+    $endif$
+    $for(caption.petitioner)$
+    $caption.petitioner$$sep$, &&& \\
+    $endfor$ &&& \\ &&& \\
+    \hspace{5em}\textit{$caption.petitioner_name$}, & & & \\
+    \vspace{0.5em}
+    \hspace{2em}$if(caption.party-sep)$$caption.party-sep$$else$v.$endif$ & & &
+    \vspace{0.5em} $caption.case_no$ \\
+    \vspace{1em}
+    $for(caption.respondent)$
+    $caption.respondent$$sep$, &&& \\
+    $endfor$ &&& \\ &&& \\
+    \hspace{5em}\textit{$caption.respondent_name$}.
+    & & &
+    \vspace*{1em} \\
+    \cline{1-2}
+\end{tabular}
+\setlength{\parindent}{0.5in}
+
+\vspace{2em}
+
+% TITLE
+% \onehalfspacing
+$if(break-to-start)$
+\vspace{2em}
+$else$
+$if(toc)$\vspace{2em}$else$\vspace{0.5em}$endif$
+$endif$
+$if(title-rule)$
+\hrule
+$endif$
+\begin{center}\bfseries
+    \MakeUppercase{$title$}
+
+    $author$
+
+    $date$
+\end{center}
+$if(title-rule)$
+\hrule
+$endif$
+$else$
+\vspace*{2in}
+\begin{center}\bfseries
+    $title$
+
+    $author$
+
+    \vspace{1em}
+
+    $date$
+\end{center}
+$endif$
+
+$if(toc)$
+\clearpage
+$endif$
+
+% \doublespacing
+$endif$

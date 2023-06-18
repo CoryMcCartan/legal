@@ -1,0 +1,16 @@
+% EXHIBITS
+\newcounter{exhibit}
+\renewcommand{\theexhibit}{\$if(exhibit-format)$$exhibit-format$$else$Alph$endif${exhibit}}
+$for(exhibits/pairs)$
+\newpage
+\thispagestyle{empty}
+\vspace*{3in}
+\begin{center}
+    \refstepcounter{exhibit}
+    \label{exh:$it.key$}
+    \noindent\Huge\bfseries
+    EXHIBIT \theexhibit \\
+    \LARGE\mdseries
+    $it.value$
+\end{center}
+$endfor$

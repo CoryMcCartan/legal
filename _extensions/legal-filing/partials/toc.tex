@@ -1,0 +1,37 @@
+$if(toc)$
+$if(toc-title)$
+\renewcommand*\contentsname{$toc-title$}
+$endif$
+$if(beamer)$
+\begin{frame}[allowframebreaks]
+$if(toc-title)$
+  \frametitle{$toc-title$}
+$endif$
+  \tableofcontents[hideallsubsections]
+\end{frame}
+$else$
+{
+$if(colorlinks)$
+\hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+$endif$
+\setcounter{tocdepth}{$toc-depth$}
+\begin{center}
+\tableofcontents
+\end{center}
+}
+$endif$
+$endif$
+$if(lof)$
+\begin{center}
+\listoffigures
+\end{center}
+$endif$
+$if(lot)$
+\begin{center}
+\listoftables
+\end{center}
+$endif$
+
+$if(break-to-start)$
+\newpage
+$endif$
