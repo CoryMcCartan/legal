@@ -3,3 +3,5 @@
 *.png
 *.rproj
 *.Rproj
+bluebook.*
+bluebook-*.*
