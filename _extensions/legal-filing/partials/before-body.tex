@@ -19,16 +19,16 @@ $if(caption)$
     $caption.prepend$ &&& \\ &&& \\
     $endif$
     $for(caption.petitioner)$
-    $caption.petitioner$$sep$, &&& \\
-    $endfor$ &&& \\ &&& \\
+    $caption.petitioner$, &&& \\
+    $endfor$ &&& \\
     \hspace{5em}\textit{$caption.petitioner_name$}, & & & \\
     \vspace{0.5em}
     \hspace{2em}$if(caption.party-sep)$$caption.party-sep$$else$v.$endif$ & & &
     \vspace{0.5em} $caption.case_no$ \\
     \vspace{1em}
     $for(caption.respondent)$
-    $caption.respondent$$sep$, &&& \\
-    $endfor$ &&& \\ &&& \\
+    $caption.respondent$, &&& \\
+    $endfor$ &&& \\
     \hspace{5em}\textit{$caption.respondent_name$}.
     & & &
     \vspace*{1em} \\
