@@ -31,5 +31,22 @@ format:
 ## Example and Options
 
 Here is the source code for a minimal sample document: [template.qmd](template.qmd).
-This sample is relatively self-documenting and contains YAML for all the possible options that are specific to the template.
+This sample is relatively self-documenting and contains YAML for all the
+possible options that are specific to the template.
 
+#### Exhibits
+
+To include exhibits in the document, use the `exhibits` metadata as follows.
+
+```yaml
+exhibits:
+  - key: vitae
+    name: Curriculum Vitae
+    file: "exh/cv.pdf"
+  - key: examples
+    name: Example Simulated Plans
+    file: "exh/examples.pdf"
+    landscape: true
+```
+
+You can reference exhibits as, e.g. `Exhibit \ref{exh:vitae}`

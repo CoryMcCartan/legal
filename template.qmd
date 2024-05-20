@@ -19,7 +19,8 @@ caption:
   case_no: |
     Case No. 123456789
 exhibits:
-  vitae: Curriculum Vitae
+    - key: vitae
+      name: Curriculum Vitae
 exhibit-format: Alph
 bibliography: references.bib
 format:

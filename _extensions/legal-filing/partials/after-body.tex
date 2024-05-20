@@ -1,7 +1,7 @@
 % EXHIBITS
 \newcounter{exhibit}
 \renewcommand{\theexhibit}{\$if(exhibit-format)$$exhibit-format$$else$Alph$endif${exhibit}}
-$for(exhibits/pairs)$
+$for(exhibits)$
 \newpage
 \thispagestyle{empty}
 \vspace*{3in}
@@ -11,6 +11,9 @@ $for(exhibits/pairs)$
     \noindent\Huge\bfseries
     EXHIBIT \theexhibit \\
     \LARGE\mdseries
-    $it.value$
+    $it.name$
 \end{center}
+$if(it.file)$
+\includepdf[pages=-,landscape=$if(it.landscape)$$it.landscape$$else$false$endif$,noautoscale=true]{$it.file$}
+$endif$
 $endfor$
